@@ -43,10 +43,12 @@ class MovieViewSet(viewsets.ModelViewSet):
         title = self.request.GET.get("title")
 
         if actors is not None:
-            queryset = queryset.filter(actors__id__in=actors)
+            actors_list = actors.split(',')
+            queryset = queryset.filter(actors__id__in=actors_list)
 
         if genres is not None:
-            queryset = queryset.filter(genres__id__in=genres)
+            genres_list = genres.split(',')
+            queryset = queryset.filter(genres__id__in=genres_list)
 
         if title is not None:
             queryset = queryset.filter(title__icontains=title)
@@ -72,10 +74,11 @@ class MovieSessionViewSet(viewsets.ModelViewSet):
         date = self.request.GET.get("date")
 
         if movie is not None:
-            queryset = queryset.filter(id__iexact =movie)
+            movie_list = movie.split(',')
+            queryset = queryset.filter(movie__id__in=movie_list)
 
         if date is not None:
-            queryset = queryset.filter(show_time__icontains=date)
+            queryset = queryset.filter(show_time__date=date)
 
         return queryset
 
